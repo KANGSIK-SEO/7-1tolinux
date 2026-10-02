@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "7-1tolinux"
+version = "0.1.0"
+description = "미술관 출처를 모듈(드라이버)로 꽂는 커널형 아키텍처의 퍼블릭 도메인 명화 챗봇. 무료·오픈소스로 공개해 누구나 모듈을 보태 지속가능하게 만든다."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "fastapi",
+    "uvicorn",
+]
+
+[project.scripts]
+"7-1tolinux" = "app.cli:main"
+
+# Linux가 커널과 드라이버를 분리하듯, 미술관 출처(소스 모듈)를 패키지 설치만으로 꽂는 지점.
+# 새 미술관을 추가하고 싶은 사람은 자기 패키지에 SourceModule을 만들고 이 그룹에
+# entry-point만 등록하면 된다 — 이 리포(커널)를 포크하거나 고칠 필요가 없다.
+[project.entry-points."sevenonelinux.modules"]
+met = "app.modules.met:MetModule"
+aic = "app.modules.aic:AicModule"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
